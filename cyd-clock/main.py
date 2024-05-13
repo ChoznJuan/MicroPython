@@ -7,7 +7,19 @@ import urequests
 import secrets
 import json
 import os
-import usocket as socket
+from wifi_manager import WifiManager
+import utime
+#import usocket as socket
+
+wm = WifiManager()
+wm.connect()
+
+while True:
+    if wm.is_connected():
+        print('Connected!')
+    else:
+        print('Disconnected!')
+    utime.sleep(10)
 
 # Set up SPI for display
 # Baud rate of 80000000 seems about the max
