@@ -23,15 +23,11 @@ backlight = Pin(21, Pin.OUT)
 
 WHITE = color565(255, 255, 255)
 
-wifi = network.WLAN(network.STA_IF)
-wifi.active(True)
-
-networks = wifi.scan()
+connect()
 #display available networks
 #print(networks)
 
-#Connect to network 
-wifi.connect(secrets.ssid,secrets.wifiPswd)
+
 
 
 
