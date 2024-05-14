@@ -35,7 +35,7 @@ backlight = Pin(21, Pin.OUT)
 
 WHITE = color565(255, 255, 255)
 
-connect()
+#connect()
 #display available networks
 #print(networks)
 
