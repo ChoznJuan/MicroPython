@@ -7,19 +7,19 @@ import urequests
 import secrets
 import json
 import os
-from wifi_manager import WifiManager
+import wifi_manager as wifimgr 
 import utime
 #import usocket as socket
 
-wm = WifiManager()
-wm.connect()
+wlan = wifimgr.get_connection()
+if wlan is None:
+    print("Could not initialize the network connection.")
+    while True:
+        pass  # you shall not pass :D
 
-while True:
-    if wm.is_connected():
-        print('Connected!')
-    else:
-        print('Disconnected!')
-    utime.sleep(10)
+
+# Main Code goes here, wlan is a working network.WLAN(STA_IF) instance.
+print("ESP OK")
 
 # Set up SPI for display
 # Baud rate of 80000000 seems about the max
