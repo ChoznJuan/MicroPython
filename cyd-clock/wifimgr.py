@@ -4,8 +4,8 @@ import ure
 import time
 
 ap_ssid = "WifiManager"
-ap_password = "tayfunulu"
-ap_authmode = 3  # WPA2
+ap_password = "wifimgr123"
+ap_authmode = 4  # WPA/WPA2
 
 NETWORK_PROFILES = 'wifi.dat'
 
