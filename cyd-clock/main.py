@@ -7,7 +7,7 @@ import time
 #import secrets
 import json
 import os
-import wifi_manager as wifimgr 
+import wifimgr 
 import weather as weather
 import utime
 from cydr import CYD
@@ -21,12 +21,12 @@ cyd.display.clear(cyd.YELLOW)
 cyd.display.draw_text8x8(x=cyd.display.width - 15,y=cyd.display.height //10,text="'Connect to WiFi ssid ' + str(wifimgr.ap_ssid) + ', default password: ' + str(wifimgr.ap_password)",rotate=90,color=cyd.WHITE,background=0)
 cyd.display.draw_text8x8(x=cyd.display.width - 25,y=cyd.display.height //10,text="and access the ESP via your favorite web browser at 192.168.4.1.",rotate=90,color=cyd.WHITE,background=0)
 
-if wifimgr.wlan_ap.isconnected() is False:
-    while True:
-        cyd.RGBr.on()
-        time.sleep(0.5)
-        cyd.RGBr.off()
-        time.sleep(0.5)
+#if wifimgr.wlan_sta.isconnected() is False:
+#    while True:
+#        cyd.RGBr.on()
+#        time.sleep(0.5)
+#        cyd.RGBr.off()
+#        time.sleep(0.5)
         
 #Launch WiFi Manager
 wlan = wifimgr.get_connection()
