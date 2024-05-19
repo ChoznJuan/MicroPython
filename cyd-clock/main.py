@@ -1,16 +1,15 @@
-#from ili9341 import Display, color565
-#from xpt2046 import Touch
-#from machine import Pin, SPI, SDCard, ADC, idle
-#import network
 import time
-#import urequests
-#import secrets
 import json
 import os
 import wifimgr 
 import weather as weather
-import utime
+import machine
+import getTime
 from cydr import CYD
+try:
+  import usocket as socket
+except:
+  import socket
 
 #Initialize display
 cyd = CYD()
@@ -35,14 +34,26 @@ if wlan is None:
     print("Could not initialize the network connection.")
     while True:
         pass  # you shall not pass :D
+
+try:
+  s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+  s.setsockopt(socket.SOL_SOCKET, socket.SO_REUSEADDR, 1)
+  s.bind(('', 80))
+  s.listen(5)
+except OSError as e:
+  machine.reset()
+
+
 # Main Code goes here, wlan is a working network.WLAN(STA_IF) instance.
 print("ESP OK")
+getTime()
 cyd.RGBr.on()
 cyd.RGBb.off()
 
 temp = weather.data['main']
 disp = round(temp['temp'])
 print(disp)
+print(getTime())
 cyd.backlight.on()
 
 #display functions
