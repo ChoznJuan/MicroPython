@@ -1,15 +1,12 @@
 import time
 import json
 import os
-import wifimgr 
+from wifimgr import WifiManager
 import weather as weather
 import machine
 import getTime
 from cydr import CYD
-try:
-  import usocket as socket
-except:
-  import socket
+
 
 #Initialize display
 cyd = CYD()
@@ -21,42 +18,25 @@ cyd.display.draw_text8x8(x=cyd.display.width - 15,y=cyd.display.height //10,text
 cyd.display.draw_text8x8(x=cyd.display.width - 25,y=cyd.display.height //10,text="and access the ESP via your favorite web browser at 192.168.4.1.",rotate=90,color=cyd.WHITE,background=0)
         
 #Launch WiFi Manager
-wlan = wifimgr.get_connection()
+wm = WifiManager()
+wm.connect()
 
-if wifimgr.wlan_sta.isconnected() is False:
-    while True:
-        cyd.RGBr.on()
-        time.sleep(0.5)
-        cyd.RGBr.off()
-        time.sleep(0.5)
+while True:
+  if wm.is_connected():
+    print("ESP OK")
+    getTime()
+    cyd.RGBr.on()
+    cyd.RGBb.off()
 
-if wlan is None:
-    print("Could not initialize the network connection.")
-    while True:
-        pass  # you shall not pass :D
+    temp = weather.data['main']
+    disp = round(temp['temp'])
+    print(disp)
+    print(getTime())
+    cyd.backlight.on()
 
-try:
-  s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
-  s.setsockopt(socket.SOL_SOCKET, socket.SO_REUSEADDR, 1)
-  s.bind(('', 80))
-  s.listen(5)
-except OSError as e:
-  machine.reset()
-
-
-# Main Code goes here, wlan is a working network.WLAN(STA_IF) instance.
-print("ESP OK")
-getTime()
-cyd.RGBr.on()
-cyd.RGBb.off()
-
-temp = weather.data['main']
-disp = round(temp['temp'])
-print(disp)
-print(getTime())
-cyd.backlight.on()
-
-#display functions
-cyd.display.clear(cyd.YELLOW)
-cyd.display.draw_text8x8(cyd.display.width //32,cyd.display.height //9,str(disp),cyd.WHITE,background=0)
-
+    #display functions
+    cyd.display.clear(cyd.BLACK)
+    cyd.display.draw_text8x8(cyd.display.width //32,cyd.display.height //9,str(disp),cyd.WHITE,background=0)
+  else:
+    cyd.display.clear(cyd.RED)
+    cyd.display.draw_text8x8(cyd.display.width //32,cyd.display.height //9,"Not Connected to WiFi.",cyd.WHITE,background=0)
