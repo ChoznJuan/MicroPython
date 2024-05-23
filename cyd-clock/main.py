@@ -4,7 +4,7 @@ import os
 from wifimgr import WifiManager
 import weather as weather
 import machine
-import getTime
+from getTime import GetTime
 from cydr import CYD
 
 
@@ -21,22 +21,24 @@ cyd.display.draw_text8x8(x=cyd.display.width - 25,y=cyd.display.height //10,text
 wm = WifiManager()
 wm.connect()
 
-while True:
-  if wm.is_connected():
-    print("ESP OK")
-    getTime()
-    cyd.RGBr.on()
-    cyd.RGBb.off()
+#while True:
+if wm.is_connected():
+  print("ESP OK")
+  gt = GetTime()
+  cyd.display.clear()
+  cyd.RGBr.on()
+  cyd.RGBb.off()
 
-    temp = weather.data['main']
-    disp = round(temp['temp'])
-    print(disp)
-    print(getTime())
-    cyd.backlight.on()
+  temp = weather.data['main']
+  disp = round(temp['temp'])
+  print(disp)
+  print(gt.dispTime)
+  print(gt.dispDate)
+  cyd.backlight.on()
 
-    #display functions
-    cyd.display.clear(cyd.BLACK)
-    cyd.display.draw_text8x8(cyd.display.width //32,cyd.display.height //9,str(disp),cyd.WHITE,background=0)
-  else:
-    cyd.display.clear(cyd.RED)
-    cyd.display.draw_text8x8(cyd.display.width //32,cyd.display.height //9,"Not Connected to WiFi.",cyd.WHITE,background=0)
+  #display functions
+  cyd.display.clear(cyd.BLACK)
+  cyd.display.draw_text8x8(cyd.display.width //32,cyd.display.height //9,str(disp),cyd.WHITE,background=0)
+else:
+  cyd.display.clear(cyd.RED)
+  cyd.display.draw_text8x8(cyd.display.width //32,cyd.display.height //9,"Not Connected to WiFi.",cyd.WHITE,background=0)

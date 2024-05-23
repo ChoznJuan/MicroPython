@@ -12,7 +12,7 @@ import time
 
 class WifiManager:
 
-    def __init__(self, ssid = 'WifiManager', password = 'wifimanager', reboot = True, debug = False):
+    def __init__(self, ssid = 'WiFiClock', password = 'wificlock', reboot = True, debug = False):
         self.wlan_sta = network.WLAN(network.STA_IF)
         self.wlan_sta.active(True)
         self.wlan_ap = network.WLAN(network.AP_IF)
